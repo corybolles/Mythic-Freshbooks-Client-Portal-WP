@@ -1,0 +1,155 @@
+div.fcp_container {
+    display: block;
+    position: relative;
+}
+
+div.fcp_container .fcp_header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+div.fcp_container .fcp_header .welcome {
+    flex-basis: 100%;
+    display: block;
+    text-align: left;
+}
+
+div.fcp_container .fcp_header .balance {
+    flex-basis: 100%;
+    display: block;
+    text-align: left;
+}
+
+@media (min-width: 992px) {
+    div.fcp_container .fcp_header {
+        flex-direction: row;
+    }
+    
+    div.fcp_container .fcp_header .welcome {
+        flex-basis: 50%;
+        display: block;
+        text-align: left;
+    }
+    
+    div.fcp_container .fcp_header .balance {
+        flex-basis: 50%;
+        display: block;
+        text-align: right;
+    }
+}
+
+/* Table Styles */
+.fcp_body table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.fcp_body table tr {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: .35em;
+}
+
+.fcp_body table th,
+.fcp_body table td {
+    padding: .625em;
+    text-align: left;
+}
+
+.fcp_body table th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.fcp_body table td a.status {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 4px 12px;
+    color: #fff;
+}
+
+.fcp_body table td a.status.disputed { background-color: #cacbcc; transition: all 0.2s; }
+.fcp_body table td a.status.draft { background-color: #cacbcc; transition: all 0.2s; }
+.fcp_body table td a.status.sent { background-color: #0066eb; transition: all 0.2s; }
+.fcp_body table td a.status.viewed { background-color: #0066eb; transition: all 0.2s; }
+.fcp_body table td a.status.paid { background-color: #4BB543; transition: all 0.2s; }
+.fcp_body table td a.status.autopaid { background-color: #4BB543; transition: all 0.2s; }
+.fcp_body table td a.status.retry { background-color: #eb1400; transition: all 0.2s; }
+.fcp_body table td a.status.overdue { background-color: #eb1400; transition: all 0.2s; }
+.fcp_body table td a.status.failed { background-color: #eb1400; transition: all 0.2s; }
+.fcp_body table td a.status.partial { background-color: #ebb800; transition: all 0.2s; }
+
+.fcp_body table td a.status.disputed:hover { background-color: #b9babb; transition: all 0.2s; }
+.fcp_body table td a.status.draft:hover { background-color: #b9babb; transition: all 0.2s; }
+.fcp_body table td a.status.sent:hover { background-color: #004DD2; transition: all 0.2s; }
+.fcp_body table td a.status.viewed:hover { background-color: #004DD2; transition: all 0.2s; }
+.fcp_body table td a.status.paid:hover { background-color: #329C2A; transition: all 0.2s; }
+.fcp_body table td a.status.autopaid:hover { background-color: #329C2A; transition: all 0.2s; }
+.fcp_body table td a.status.retry:hover { background-color: #eb1400; transition: all 0.2s; }
+.fcp_body table td a.status.overdue:hover { background-color: #D20000; transition: all 0.2s; }
+.fcp_body table td a.status.failed:hover { background-color: #D20000; transition: all 0.2s; }
+.fcp_body table td a.status.partial:hover { background-color: #D29F00; transition: all 0.2s; }
+
+.fcp_body .fcp_pagination { margin: 0 auto; text-align: center; }
+.fcp_body .fcp_pagination a.disabled { pointer-events: none; color: #ccc; }
+
+@media screen and (max-width: 968px) {
+    .fcp_body table {
+        border: 0;
+    }
+
+    .fcp_body table caption {
+        font-size: 1.3em;
+    }
+
+    .fcp_body table thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    .fcp_body table tr {
+        border-bottom: 3px solid #ddd;
+        display: block;
+        margin-bottom: .625em;
+    }
+
+    .fcp_body table td {
+        border-bottom: 1px solid #ddd;
+        display: block;
+        font-size: .8em;
+        text-align: right;
+    }
+
+    .fcp_body table td::before {
+        /*
+        * aria-label has no advantage, it won't be read inside a table
+        content: attr(aria-label);
+        */
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .fcp_body table td:last-child {
+        border-bottom: 0;
+    }
+    
+    .fcp_body table td a.status {
+        width: auto;
+    }
+}
