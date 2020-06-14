@@ -219,9 +219,9 @@ function mythic_fcp_refresh_token() {
         return true;
     } else {
         // Token is Expired, Refresh Token
-        $client_id = trim(get_option('mythic_fcp_client_id'));
-        $client_secret = trim(get_option('mythic_fcp_client_secret'));
-        $refresh_token = trim(get_option('mythic_fcp_refresh_token'));
+        $client_id = get_option('mythic_fcp_client_id');
+        $client_secret = get_option('mythic_fcp_client_secret');
+        $refresh_token = get_option('mythic_fcp_refresh_token');
         $redirect_uri = get_admin_url(null, 'options-general.php', 'https');
         
         echo "Client ID: " . $client_id . "<br>";
