@@ -1,6 +1,9 @@
 # Change Log
 
 ## [1.0.1] - June 13, 2020
+### Added
+- Sanitize custom DB settings
+
 ### Changed
 - Refactored cURL Functions to use WP_Http_Curl class.
 

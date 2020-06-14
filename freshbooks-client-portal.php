@@ -261,10 +261,11 @@ function mythic_fcp_refresh_token() {
         $expiry_time = $json["expires_in"];
         $expiry_date = new DateTime();
         $expiry_date->add(new DateInterval('PT' . $expiry_time . 'S'));
+        $expiry_date_string = $expiry_date->format('Y-m-d H:i:s');
 
         update_option('mythic_fcp_bearer_token', $bearer_token);
         update_option('mythic_fcp_refresh_token', $refresh_token);
-        update_option('mythic_fcp_token_expiry', $expiry_date);
+        update_option('mythic_fcp_token_expiry', $expiry_date_string);
 
         // Tokens Updated!
         return true;
