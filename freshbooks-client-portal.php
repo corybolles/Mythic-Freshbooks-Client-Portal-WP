@@ -31,25 +31,25 @@ function mythic_fcp_uninstall() {
 add_action( 'admin_init', 'mythic_fcp_register_settings' );
 function mythic_fcp_register_settings() {
     add_option( 'mythic_fcp_client_id', '');
-    register_setting( 'mythic_fcp_token_options', 'mythic_fcp_client_id' );
+    register_setting( 'mythic_fcp_token_options', 'mythic_fcp_client_id', array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
 
     add_option( 'mythic_fcp_client_secret', '');
-    register_setting( 'mythic_fcp_token_options', 'mythic_fcp_client_secret' );
+    register_setting( 'mythic_fcp_token_options', 'mythic_fcp_client_secret', array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
     
     add_option( 'mythic_fcp_bearer_token', '');
-    register_setting( 'mythic_fcp_token_options', 'mythic_fcp_bearer_token' );
+    register_setting( 'mythic_fcp_token_options', 'mythic_fcp_bearer_token', array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
     
     add_option( 'mythic_fcp_refresh_token', '');
-    register_setting( 'mythic_fcp_token_options', 'mythic_fcp_refresh_token' );
+    register_setting( 'mythic_fcp_token_options', 'mythic_fcp_refresh_token', array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
     
     add_option( 'mythic_fcp_token_expiry', '' );
-    register_setting( 'mythic_fcp_token_options', 'mythic_fcp_token_expiry');
+    register_setting( 'mythic_fcp_token_options', 'mythic_fcp_token_expiry', array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
     
     add_option( 'mythic_fcp_account_id', '');
-    register_setting( 'mythic_fcp_identity_info', 'mythic_fcp_account_id');
+    register_setting( 'mythic_fcp_identity_info', 'mythic_fcp_account_id', array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
 
     add_option( 'mythic_fcp_business_id', '');
-    register_setting( 'mythic_fcp_identity_info', 'mythic_fcp_business_id');
+    register_setting( 'mythic_fcp_identity_info', 'mythic_fcp_business_id', array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
 }
 
 // Include WP_Http Class
