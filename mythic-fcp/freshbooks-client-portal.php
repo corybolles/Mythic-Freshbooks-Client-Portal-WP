@@ -71,7 +71,7 @@ function mythic_fcp_token_options_page() {
 
     ?>
 
-    <div class="wrap">
+    <div class="wrap mythic_fcp">
         <nav class="nav-tab-wrapper">
             <a href="?page=mythic-fcp" class="nav-tab <?php if($tab===null):?>nav-tab-active<?php endif; ?>">Freshbooks Connection</a>
             <a href="?page=mythic-fcp&tab=settings" class="nav-tab <?php if($tab==='settings'):?>nav-tab-active<?php endif; ?>">Settings</a>
@@ -102,85 +102,92 @@ function mythic_fcp_token_options_page() {
                 ?>
 
                 <h1>Freshbooks Connection Settings</h1>
-                <form method="post" action="options.php">
-                    <?php settings_fields( 'mythic_fcp_token_options' ); ?>
-                    <h3>Step 1) Application Settings</h3>
-                    <table>
-                        <tr valign="middle">
-                            <th scope="row" style="text-align:left;"><label for="mythic_fcp_client_id">Client ID</label></th>
-                            <td><input type="text" id="mythic_fcp_client_id" name="mythic_fcp_client_id" value="<?php echo get_option('mythic_fcp_client_id'); ?>" /></td>
-                        </tr>
-                        <tr valign="middle">
-                            <th scope="row" style="text-align:left;"><label for="mythic_fcp_client_secret">Client Secret</label></th>
-                            <td><input type="text" id="mythic_fcp_client_secret" name="mythic_fcp_client_secret" value="<?php echo get_option('mythic_fcp_client_secret'); ?>" /></td>
-                        </tr>
-                    </table>
-                    <?php  submit_button(); ?>
-                </form>
+                <div class="col-1">
+                    <form method="post" action="options.php">
+                        <?php settings_fields( 'mythic_fcp_token_options' ); ?>
+                        <h3>Step 1) Application Settings</h3>
+                        <table>
+                            <tr valign="middle">
+                                <th scope="row" style="text-align:left;"><label for="mythic_fcp_client_id">Client ID</label></th>
+                                <td><input type="text" id="mythic_fcp_client_id" name="mythic_fcp_client_id" value="<?php echo get_option('mythic_fcp_client_id'); ?>" /></td>
+                            </tr>
+                            <tr valign="middle">
+                                <th scope="row" style="text-align:left;"><label for="mythic_fcp_client_secret">Client Secret</label></th>
+                                <td><input type="text" id="mythic_fcp_client_secret" name="mythic_fcp_client_secret" value="<?php echo get_option('mythic_fcp_client_secret'); ?>" /></td>
+                            </tr>
+                        </table>
+                        <?php  submit_button(); ?>
+                    </form>
 
-                <h3>Step 2) Freshbooks Authorization</h3>    
-                <?php
-                    if(get_option('mythic_fcp_bearer_token') && get_option('mythic_fcp_refresh_token') && get_option('mythic_fcp_token_expiry')) {
-                        echo "<p><strong>Authentication Status: </strong>Connected <span class='dashicons dashicons-yes-alt'></span></p>";
-                    } else {
-                        echo "<p><strong>Authentication Status: </strong>Not Connected <span class='dashicons dashicons-dismiss'></span></p>";
-                    }
-                ?>
+                    <h3>Step 2) Freshbooks Authorization</h3>    
+                    <?php
+                        if(get_option('mythic_fcp_bearer_token') && get_option('mythic_fcp_refresh_token') && get_option('mythic_fcp_token_expiry')) {
+                            echo "<p><strong>Authentication Status: </strong>Connected <span class='dashicons dashicons-yes-alt'></span></p>";
+                        } else {
+                            echo "<p><strong>Authentication Status: </strong>Not Connected <span class='dashicons dashicons-dismiss'></span></p>";
+                        }
+                    ?>
 
-                <a href="https://auth.freshbooks.com/service/auth/oauth/authorize?client_id=<?php echo get_option('mythic_fcp_client_id'); ?>&response_type=code&redirect_uri=<?php echo get_admin_url(null, 'options-general.php', 'https'); ?>&state=mythic_fcp_auth" class="button button-primary">Connect with Freshbooks</a>
+                    <a href="https://auth.freshbooks.com/service/auth/oauth/authorize?client_id=<?php echo get_option('mythic_fcp_client_id'); ?>&response_type=code&redirect_uri=<?php echo get_admin_url(null, 'options-general.php', 'https'); ?>&state=mythic_fcp_auth" class="button button-primary">Connect with Freshbooks</a>
 
-                <h3>Step 3) Business Identity Information</h3>
-                <form method="post" action="options.php">
-                    <?php settings_fields( 'mythic_fcp_identity_info' ); ?>
-                    <table>
-                        <?php 
+                    <h3>Step 3) Business Identity Information</h3>
+                    <form method="post" action="options.php">
+                        <?php settings_fields( 'mythic_fcp_identity_info' ); ?>
+                        <table>
+                            <?php 
 
-                        $bearer_token = get_option('mythic_fcp_bearer_token');
+                            $bearer_token = get_option('mythic_fcp_bearer_token');
 
-                        // WP_Http Request        
-                        $api_url = "https://api.freshbooks.com/auth/api/v1/users/me";
-                        $api_args = array(
-                            'method' => 'GET',
-                            'timeout' => 30.000,
-                            'redirection' => 10,
-                            'headers' => array(
-                                "Authorization" => "Bearer " . $bearer_token,
-                                "Api-Version" => "alpha",
-                                "Content-Type" => "application/json"
-                            ),
-                        );
-                        $request = new WP_Http_Curl;
-                        $result = $request->request( $api_url, $api_args );
-                        $response = $result['body'];
-                        $json = json_decode($response, true);
+                            // WP_Http Request        
+                            $api_url = "https://api.freshbooks.com/auth/api/v1/users/me";
+                            $api_args = array(
+                                'method' => 'GET',
+                                'timeout' => 30.000,
+                                'redirection' => 10,
+                                'headers' => array(
+                                    "Authorization" => "Bearer " . $bearer_token,
+                                    "Api-Version" => "alpha",
+                                    "Content-Type" => "application/json"
+                                ),
+                            );
+                            $request = new WP_Http_Curl;
+                            $result = $request->request( $api_url, $api_args );
+                            $response = $result['body'];
+                            $json = json_decode($response, true);
 
-                        $business_memberships = $json["response"]["business_memberships"];
+                            $business_memberships = $json["response"]["business_memberships"];
 
-                        ?>
+                            ?>
 
-                        <tr valign="middle">
-                            <th scope="row" style="text-align:left;"><label for="mythic_fcp_account_id">Select Your Account</label></th>
-                            <td><select name="mythic_fcp_account_id" id="mythic_fcp_account_id">
-                                <?php
-                                    foreach($business_memberships as $business) {
-                                        echo( "<option value='" . $business['business']['account_id'] . "'>" . $business['business']['name'] . "</option>" );
-                                    }
-                                ?>
-                            </select></td>
-                        </tr>
-                        <tr valign="middle">
-                            <th scope="row" style="text-align:left;"><label for="mythic_fcp_business_id">Select Your Business</label></th>
-                            <td><select name="mythic_fcp_business_id" id="mythic_fcp_business_id">
-                                <?php
-                                    foreach($business_memberships as $business) {
-                                        echo( "<option value='" . $business['business']['id'] . "'>" . $business['business']['name'] . "</option>" );
-                                    }
-                                ?>
-                            </select></td>
-                        </tr> 
-                    </table>
-                    <?php  submit_button(); ?>
-                </form>
+                            <tr valign="middle">
+                                <th scope="row" style="text-align:left;"><label for="mythic_fcp_account_id">Select Your Account</label></th>
+                                <td><select name="mythic_fcp_account_id" id="mythic_fcp_account_id">
+                                    <?php
+                                        foreach($business_memberships as $business) {
+                                            echo( "<option value='" . $business['business']['account_id'] . "'>" . $business['business']['name'] . "</option>" );
+                                        }
+                                    ?>
+                                </select></td>
+                            </tr>
+                            <tr valign="middle">
+                                <th scope="row" style="text-align:left;"><label for="mythic_fcp_business_id">Select Your Business</label></th>
+                                <td><select name="mythic_fcp_business_id" id="mythic_fcp_business_id">
+                                    <?php
+                                        foreach($business_memberships as $business) {
+                                            echo( "<option value='" . $business['business']['id'] . "'>" . $business['business']['name'] . "</option>" );
+                                        }
+                                    ?>
+                                </select></td>
+                            </tr> 
+                        </table>
+                        <?php  submit_button(); ?>
+                    </form>
+                </div>
+                <div class="col-2">
+                    <div class='embed-container'>
+                        <iframe src='https://www.youtube.com/embed/m_bflx_1AQs' frameborder='0' allowfullscreen></iframe>
+                    </div>
+                </div>
 
                 <?php
                 break;
@@ -393,6 +400,13 @@ function mythic_fcp_show_client() {
 add_action( 'wp_enqueue_scripts', 'mythic_fcp_register_style' );
 function mythic_fcp_register_style() {
     wp_register_style( 'mythic_fcp_frontend_css', plugins_url( 'css/style.css', __FILE__), array(), '1.0.0', 'all');
+}
+
+// Register Admin CSS
+add_action( 'admin_enqueue_scripts', 'mythic_fcp_register_admin_style' );
+function mythic_fcp_register_admin_style() {
+    wp_register_style( 'mythic_fcp_admin_css', plugins_url( 'css/admin.css', __FILE__), array(), '1.0.0', 'all');
+    wp_enqueue_style('mythic_fcp_admin_css');
 }
 
 // Render Client Info

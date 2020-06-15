@@ -1,0 +1,24 @@
+@media (min-width: 968px) {
+    .mythic_fcp .col-1, .mythic_fcp .col-2 {
+        float: left;
+        width: 50%;
+    }
+}
+
+.mythic_fcp .embed-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.mythic_fcp .embed-container iframe,
+.mythic_fcp .embed-container object,
+.mythic_fcp .embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
