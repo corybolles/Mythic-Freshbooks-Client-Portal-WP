@@ -60,7 +60,7 @@ function mythic_fcp_class_includes() {
 // Create Options Page    
 add_action( 'admin_menu', 'mythic_fcp_register_options_page' );
 function mythic_fcp_register_options_page() {
-  add_options_page( _e('Freshbooks Client Portal'), _e('Freshbooks Client Portal'), 'manage_options', 'mythic-fcp', 'mythic_fcp_token_options_page' );
+  add_options_page( 'Freshbooks Client Portal', 'Freshbooks Client Portal', 'manage_options', 'mythic-fcp', 'mythic_fcp_token_options_page' );
 }
 
 // Options Page Content
@@ -321,6 +321,7 @@ function mythic_fcp_refresh_token() {
 }
 
 // Find Client ID On User Login
+add_action( 'user_register', 'mythic_fcp_attach_client_id', 99, 2);
 add_action( 'wp_login', 'mythic_fcp_attach_client_id', 99, 2);
 function mythic_fcp_attach_client_id($login, $user) {
     // Make Sure We Still Have Access to Freshbooks
