@@ -1,3 +1,6 @@
+## Watch Tutorial Video
+The video version of the instructions below can be found here: https://www.youtube.com/watch?v=m_bflx_1AQs
+
 ## STEP 1) WordPress Installation & Activation
 - Log in to your WordPress admin panel
 - Go to Plugins > Add New

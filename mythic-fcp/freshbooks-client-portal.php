@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Freshbooks Client Portal
  * Description: Provides client portal functionality for Freshbooks account holders.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Mythic Design Company
  * Author URI: https://mythicdesigncompany.com/
  */
@@ -60,21 +60,21 @@ function mythic_fcp_class_includes() {
 // Create Options Page    
 add_action( 'admin_menu', 'mythic_fcp_register_options_page' );
 function mythic_fcp_register_options_page() {
-  add_options_page( 'Freshbooks Client Portal', 'Freshbooks Client Portal', 'manage_options', 'mythic-fcp', 'mythic_fcp_token_options_page' );
+  add_options_page( _e('Freshbooks Client Portal'), _e('Freshbooks Client Portal'), 'manage_options', 'mythic-fcp', 'mythic_fcp_token_options_page' );
 }
 
 // Options Page Content
 function mythic_fcp_token_options_page() {
     
     $default_tab = null;
-    $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;
+    $tab = isset($_GET['tab']) ? sanitize_text_field( $_GET['tab'] ) : $default_tab;
 
     ?>
 
     <div class="wrap mythic_fcp">
         <nav class="nav-tab-wrapper">
-            <a href="?page=mythic-fcp" class="nav-tab <?php if($tab===null):?>nav-tab-active<?php endif; ?>">Freshbooks Connection</a>
-            <a href="?page=mythic-fcp&tab=settings" class="nav-tab <?php if($tab==='settings'):?>nav-tab-active<?php endif; ?>">Settings</a>
+            <a href="?page=mythic-fcp" class="nav-tab <?php if($tab===null):?>nav-tab-active<?php endif; ?>"><?php _e(' Freshbooks Connection' ); ?></a>
+            <a href="?page=mythic-fcp&tab=settings" class="nav-tab <?php if($tab==='settings'):?>nav-tab-active<?php endif; ?>"><?php _e( 'Settings' ); ?></a>
         </nav>
         <div class="tab-content">
         <?php
@@ -84,13 +84,13 @@ function mythic_fcp_token_options_page() {
                 // Settings Tab
                 ?>
         
-                <h1>Freshbooks Client Portal Plugin Settings</h1>
+                <h1><?php _e( 'Freshbooks Client Portal Plugin Settings' ); ?></h1>
                 <form method="post" action="options.php">
                     <?php settings_fields( 'mythic_fcp_options' ); ?>
 
                     <input type="hidden" id="" name="mythic_fcp_remove_on_uninstall" value="0">
                     <input type="checkbox" id="mythic_fcp_remove_on_uninstall" name="mythic_fcp_remove_on_uninstall" value="1">
-                    <label for="mythic_fcp_remove_on_uninstall"> Check this box to remove plugin data on uninstall.</label>
+                    <label for="mythic_fcp_remove_on_uninstall"><?php _e( 'Check this box to remove plugin data on uninstall.' ); ?></label>
 
                     <?php  submit_button(); ?>
                 </form>
@@ -101,39 +101,39 @@ function mythic_fcp_token_options_page() {
                 // Default Tab
                 ?>
 
-                <h1>Freshbooks Connection Settings</h1>
+                <h1><?php _e( 'Freshbooks Connection Settings' ); ?></h1>
                 <div class="col-1">
                     <form method="post" action="options.php">
                         <?php settings_fields( 'mythic_fcp_token_options' ); ?>
-                        <h3>Step 1) Application Settings</h3>
-                        <table>
+                        <h3><?php _e( 'Step 1) Application Settings' ); ?></h3>
+                        <table class="mythic-fcp-table">
                             <tr valign="middle">
-                                <th scope="row" style="text-align:left;"><label for="mythic_fcp_client_id">Client ID</label></th>
-                                <td><input type="text" id="mythic_fcp_client_id" name="mythic_fcp_client_id" value="<?php echo get_option('mythic_fcp_client_id'); ?>" /></td>
+                                <th scope="row"><label for="mythic_fcp_client_id"><?php _e( 'Client ID' ); ?></label></th>
+                                <td><input type="text" id="mythic_fcp_client_id" name="mythic_fcp_client_id" value="<?php echo esc_attr( get_option('mythic_fcp_client_id') ); ?>" /></td>
                             </tr>
                             <tr valign="middle">
-                                <th scope="row" style="text-align:left;"><label for="mythic_fcp_client_secret">Client Secret</label></th>
-                                <td><input type="text" id="mythic_fcp_client_secret" name="mythic_fcp_client_secret" value="<?php echo get_option('mythic_fcp_client_secret'); ?>" /></td>
+                                <th scope="row"><label for="mythic_fcp_client_secret"><?php _e( 'Client Secret' ); ?></label></th>
+                                <td><input type="text" id="mythic_fcp_client_secret" name="mythic_fcp_client_secret" value="<?php echo esc_attr( get_option('mythic_fcp_client_secret') ); ?>" /></td>
                             </tr>
                         </table>
                         <?php  submit_button(); ?>
                     </form>
 
-                    <h3>Step 2) Freshbooks Authorization</h3>    
+                    <h3><?php _e( 'Step 2) Freshbooks Authorization' ); ?></h3>    
                     <?php
                         if(get_option('mythic_fcp_bearer_token') && get_option('mythic_fcp_refresh_token') && get_option('mythic_fcp_token_expiry')) {
-                            echo "<p><strong>Authentication Status: </strong>Connected <span class='dashicons dashicons-yes-alt'></span></p>";
+                            echo "<p><strong>" . _e('Authentication Status:' ) . "</strong>" . _e( 'Connected' ) . "<span class='dashicons dashicons-yes-alt'></span></p>";
                         } else {
-                            echo "<p><strong>Authentication Status: </strong>Not Connected <span class='dashicons dashicons-dismiss'></span></p>";
+                            echo "<p><strong>" . _e( 'Authentication Status:' ) . "</strong>" . _e('Not Connected' ) . "<span class='dashicons dashicons-dismiss'></span></p>";
                         }
                     ?>
 
-                    <a href="https://auth.freshbooks.com/service/auth/oauth/authorize?client_id=<?php echo get_option('mythic_fcp_client_id'); ?>&response_type=code&redirect_uri=<?php echo get_admin_url(null, 'options-general.php', 'https'); ?>&state=mythic_fcp_auth" class="button button-primary">Connect with Freshbooks</a>
+                    <a href="https://auth.freshbooks.com/service/auth/oauth/authorize?client_id=<?php echo get_option('mythic_fcp_client_id'); ?>&response_type=code&redirect_uri=<?php echo get_admin_url(null, 'options-general.php', 'https'); ?>&state=mythic_fcp_auth" class="button button-primary"><?php _e( 'Connect with Freshbooks' ); ?></a>
 
-                    <h3>Step 3) Business Identity Information</h3>
+                    <h3><?php _e( 'Step 3) Business Identity Information' ); ?></h3>
                     <form method="post" action="options.php">
                         <?php settings_fields( 'mythic_fcp_identity_info' ); ?>
-                        <table>
+                        <table class="mythic-fcp-table">
                             <?php 
 
                             $bearer_token = get_option('mythic_fcp_bearer_token');
@@ -160,21 +160,21 @@ function mythic_fcp_token_options_page() {
                             ?>
 
                             <tr valign="middle">
-                                <th scope="row" style="text-align:left;"><label for="mythic_fcp_account_id">Select Your Account</label></th>
+                                <th scope="row"><label for="mythic_fcp_account_id"><?php _e( 'Select Your Account' ); ?></label></th>
                                 <td><select name="mythic_fcp_account_id" id="mythic_fcp_account_id">
                                     <?php
                                         foreach($business_memberships as $business) {
-                                            echo( "<option value='" . $business['business']['account_id'] . "'>" . $business['business']['name'] . "</option>" );
+                                            echo( "<option value='" . esc_attr( $business['business']['account_id'] ) . "'>" . $business['business']['name'] . "</option>" );
                                         }
                                     ?>
                                 </select></td>
                             </tr>
                             <tr valign="middle">
-                                <th scope="row" style="text-align:left;"><label for="mythic_fcp_business_id">Select Your Business</label></th>
+                                <th scope="row"><label for="mythic_fcp_business_id"><?php _e( 'Select Your Business' ); ?></label></th>
                                 <td><select name="mythic_fcp_business_id" id="mythic_fcp_business_id">
                                     <?php
                                         foreach($business_memberships as $business) {
-                                            echo( "<option value='" . $business['business']['id'] . "'>" . $business['business']['name'] . "</option>" );
+                                            echo( "<option value='" . esc_attr( $business['business']['id'] ) . "'>" . $business['business']['name'] . "</option>" );
                                         }
                                     ?>
                                 </select></td>
@@ -209,7 +209,7 @@ function mythic_fcp_authorize_app() {
         // WP_Http Request
         $client_id = trim(get_option('mythic_fcp_client_id'));
         $client_secret = trim(get_option('mythic_fcp_client_secret'));
-        $auth_code = $_GET['code'];
+        $auth_code = sanitize_text_field( $_GET['code'] );
         $redirect_uri = get_admin_url(null, 'options-general.php', 'https');
 
         $api_url = "https://api.freshbooks.com/auth/oauth/token";
@@ -271,19 +271,19 @@ function mythic_fcp_refresh_token() {
         $refresh_token = get_option('mythic_fcp_refresh_token');
         $redirect_uri = get_admin_url(null, 'options-general.php', 'https');
         
-        echo "Client ID: " . $client_id . "<br>";
-        echo "Client Secret: " . $client_secret . "<br>";
-        echo "Refresh Token: " . $refresh_token . "<br>";
-        echo "Redirect URI: " . $redirect_uri . "<br>";
+        echo "Client ID: " . esc_html( $client_id ) . "<br>";
+        echo "Client Secret: " . esc_html( $client_secret ) . "<br>";
+        echo "Refresh Token: " . esc_html( $refresh_token ) . "<br>";
+        echo "Redirect URI: " . esc_html( $redirect_uri ) . "<br>";
         
         // WP_Http Request
         $api_url = "https://api.freshbooks.com/auth/oauth/token";
         $api_body = '{
             "grant_type": "refresh_token",
-            "client_secret": "' . $client_secret .'",
-            "refresh_token": "' . $refresh_token . '",
-            "client_id": "' .$client_id .'",
-            "redirect_uri": "'. $redirect_uri . '"
+            "client_secret": "' . esc_html( $client_secret ) .'",
+            "refresh_token": "' . esc_html( $refresh_token ) . '",
+            "client_id": "' . esc_html( $client_id ) .'",
+            "redirect_uri": "'. esc_html( $redirect_uri ) . '"
         }';
         $api_args = array(
             'method' => 'POST',
@@ -392,7 +392,7 @@ function mythic_fcp_show_client() {
         mythic_fcp_render_client_info($json);
 
     } else {
-        echo "<p>No Freshbooks data has been found for your account.</p>";
+        echo "<p>" . _e( 'No Freshbooks data has been found for your account.' ) . "</p>";
     }
 }
 
@@ -469,12 +469,12 @@ function mythic_fcp_render_client_info($json) {
     
     <div class="fcp_container">
         <div class="fcp_header">
-            <div class="welcome"><h1>Hello<?php if($client_fname) { echo " " . $client_fname; } ?>!</h1></div>
+            <div class="welcome"><h1><?php _e( 'Hello' ); if($client_fname) { echo " " . $client_fname; } ?>!</h1></div>
             <div class="balance">
-                <p><strong>Total Outstanding: </strong>$
+                <p><strong><?php _e( 'Total Outstanding:' ); ?> </strong>$
                 <?php
                     if($client_outstanding_balance) { 
-                        echo($client_outstanding_balance[0]["amount"]["amount"] . " " . $client_outstanding_balance[0]["amount"]["code"]);
+                        echo( esc_html( $client_outstanding_balance[0]["amount"]["amount"] ) . " " . esc_html( $client_outstanding_balance[0]["amount"]["code"] ) );
                     } else {
                         echo "$0.00";
                     }
@@ -498,7 +498,7 @@ function mythic_fcp_render_client_invoices() {
     $page = "";
     
     if(isset($_GET['fcp_page'])) {
-        $p = $_GET['fcp_page'];
+        $p = sanitize_text_field( $_GET['fcp_page'] );
         $page = "&page=" . $p . "";
     } else {
         $page = "";
@@ -530,12 +530,12 @@ function mythic_fcp_render_client_invoices() {
     <table>
         <thead>
             <tr>
-                <th scope="col">Invoice Number</th>
-                <th scope="col">Date Created</th>
-                <th scope="col">Due Date</th>
-                <th scope="col">Total Amount</th>
-                <th scope="col">Outstanding</th>
-                <th scope="col">Status</th>
+                <th scope="col"><?php _e( 'Invoice Number' ); ?></th>
+                <th scope="col"><?php _e( 'Date Created' ); ?></th>
+                <th scope="col"><?php _e( 'Due Date' ); ?></th>
+                <th scope="col"><?php _e( 'Total Amount' ); ?></th>
+                <th scope="col"><?php _e( 'Outstanding' ); ?></th>
+                <th scope="col"><?php _e( 'Status' ); ?></th>
             </tr>
         </thead>
 
@@ -591,45 +591,45 @@ function mythic_fcp_render_client_invoices() {
         
         ?>
             <tr>
-                <td data-label="Invoice Number"><?php echo $invoice_number; ?></td>
-                <td data-label="Date Created"><?php echo $created_at; ?></td>
-                <td data-label="Due Date"><?php echo $due_date; ?></td>
-                <td data-label="Total Amount">$<?php echo $amount["amount"]; ?></td>
-                <td data-label="Outstanding">$<?php echo $outstanding["amount"]; ?></td>
-                <td data-label="Status"><?php 
+                <td data-label="<?php _e( 'Invoice Number' ); ?>"><?php echo esc_html( $invoice_number ); ?></td>
+                <td data-label="<?php _e( 'Date Created' ); ?>"><?php echo esc_html( $created_at ); ?></td>
+                <td data-label="<?php _e( 'Due Date' ); ?>"><?php echo esc_html( $due_date ); ?></td>
+                <td data-label="<?php _e( 'Total Amount' ); ?>">$<?php echo esc_html( $amount["amount"] ); ?></td>
+                <td data-label="<?php _e( 'Outstanding' ); ?>">$<?php echo esc_html( $outstanding["amount"]); ?></td>
+                <td data-label="<?php _e( 'Status' ); ?>"><?php 
                     switch($status) {
                         case 0;
-                            ?><a class="status disputed" href="<?php echo $link; ?>" target="_blank">Disputed</a><?php
+                            ?><a class="status disputed" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php _e( 'Disputed' ); ?></a><?php
                             break;
                         case 1;
-                            ?><a class="status draft" href="<?php echo $link; ?>" target="_blank">Draft</a><?php
+                            ?><a class="status draft" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php _e( 'Draft' ); ?></a><?php
                             break;
                         case 2;
-                            ?><a class="status sent" href="<?php echo $link; ?>" target="_blank">Sent</a><?php
+                            ?><a class="status sent" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php _e( 'Sent' ); ?></a><?php
                             break;
                         case 3;
 
                             if($due_date < $current_date) {
-                                ?><a class="status overdue" href="<?php echo $link; ?>" target="_blank">Overdue</a><?php
+                                ?><a class="status overdue" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php _e( 'Overdue' ); ?></a><?php
                             } else {
-                                ?><a class="status viewed" href="<?php echo $link; ?>" target="_blank">Viewed</a><?php
+                                ?><a class="status viewed" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php _e( 'Viewed' ); ?></a><?php
                             }
 
                             break;
                         case 4;
-                            ?><a class="status paid" href="<?php echo $link; ?>" target="_blank">Paid</a><?php
+                            ?><a class="status paid" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php _e( 'Paid' ); ?></a><?php
                             break;
                         case 5;
-                            ?><a class="status autopaid" href="<?php echo $link; ?>" target="_blank">Auto Paid</a><?php
+                            ?><a class="status autopaid" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php _e( 'Auto Paid' ); ?></a><?php
                             break;
                         case 6;
-                            ?><a class="status retry" href="<?php echo $link; ?>" target="_blank">Retry</a><?php
+                            ?><a class="status retry" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php _e( 'Retry' ); ?></a><?php
                             break;
                         case 7;
-                            ?><a class="status failed" href="<?php echo $link; ?>" target="_blank">Failed</a><?php
+                            ?><a class="status failed" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php _e( 'Failed' ); ?></a><?php
                             break;
                         case 8;
-                            ?><a class="status partial" href="<?php echo $link; ?>"> target="_blank"Partial</a><?php
+                            ?><a class="status partial" href="<?php echo esc_html( $link ); ?>" target="_blank"> <?php _e( 'Partial' ); ?></a><?php
                             break;
                     }
 
@@ -648,7 +648,7 @@ function mythic_fcp_render_client_invoices() {
 
     // Set Current Page
     if(isset($_GET['fcp_page'])) {
-        $current_page = $_GET['fcp_page'];
+        $current_page = sanitize_text_field( $_GET['fcp_page'] );
     } else {
         $current_page = 1;
     }
@@ -685,20 +685,20 @@ function mythic_fcp_render_client_invoices() {
         if(count($invoices) > 1) {
             // Add Prev Button
             $current_url = explode("?", $_SERVER['REQUEST_URI']);
-            ?><a href="<?php echo($current_url[0] . "?fcp_page=" . $prev_page); ?>">&lt; Previous Page</a> | <?php
+            ?><a href="<?php echo( esc_html( $current_url[0] ) . "?fcp_page=" . esc_html( $prev_page )); ?>">&lt; <?php _e( 'Previous Page' ); ?></a> | <?php
         }
     }
 
     // Next Page
     // WP_Http Request  
-    $api_url = "https://api.freshbooks.com/accounting/account/" . get_option('mythic_fcp_account_id') . "/invoices/invoices?per_page=10&page=" . $next_page . "&search[customerid]=" . $fcp_client_id;
+    $api_url = "https://api.freshbooks.com/accounting/account/" . get_option('mythic_fcp_account_id') . "/invoices/invoices?per_page=10&page=" . esc_html( $next_page ) . "&search[customerid]=" . esc_html( $fcp_client_id );
     $api_args = array(
         'method' => 'GET',
         'timeout' => 30.000,
         'redirection' => 10,
         'headers' => array(
             "Api-Version" => "alpha",
-            "Authorization" => "Bearer " . $bearer_token,
+            "Authorization" => "Bearer " . esc_html( $bearer_token ),
             "Content-Type" => "application/json"
         ),
 
@@ -714,9 +714,9 @@ function mythic_fcp_render_client_invoices() {
         if(count($invoices) > 1) {
             // Add Next Button
             $current_url = explode("?", $_SERVER['REQUEST_URI']);
-            ?><a href="<?php echo($current_url[0] . "?fcp_page=" . $next_page); ?>">Next Page &gt;</a><?php
+            ?><a href="<?php echo( esc_html( $current_url[0] ) . "?fcp_page=" . esc_html( $next_page ) ); ?>"><?php _e( 'Next Page' ); ?> &gt;</a><?php
         } else {
-            ?><a href="!#" class="disabled">Next Page &gt;</a><?php
+            ?><a href="!#" class="disabled"><?php _e( 'Next Page' ); ?> &gt;</a><?php
         }
 
 

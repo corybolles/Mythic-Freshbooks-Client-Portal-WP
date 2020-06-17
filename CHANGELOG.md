@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.0.2] - June 17, 2020
+### Added
+- Internationalization of all text strings
+- Escaped all outputted texted
+
+### Changed
+- Moved inline styles to external stylesheet
+
 ## [1.0.1] - June 13, 2020
 ### Added
 - Sanitize custom DB settings
