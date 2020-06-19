@@ -7,6 +7,7 @@
 
 ### Changed
 - Moved inline styles to external stylesheet
+- Adjusted pagination to work on pages with existing query parameters
 
 ## [1.0.1] - June 13, 2020
 ### Added

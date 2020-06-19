@@ -13,6 +13,7 @@ The purpose of this plugin is to provide a client portal within WordPress for th
 ## Coming Soon Features:
 - Support for clients who are a part of multiple businesses within Freshbooks
 - Support for increased number of Freshbooks clients
+- Support for clients who are the "secondary contact" on their account
 
 ## Feature Requests
 - If you have a feature request that is not listed in either the current or coming soon features, please reach out to us at [https://mythicdesigncompany.com/contact/](https://mythicdesigncompany.com/contact/)
