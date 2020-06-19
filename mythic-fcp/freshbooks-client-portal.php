@@ -685,8 +685,7 @@ function mythic_fcp_render_client_invoices() {
 
         if(count($invoices) > 1) {
             // Add Prev Button
-            $current_url = explode("?", $_SERVER['REQUEST_URI']);
-            ?><a href="<?php echo( esc_html( $current_url[0] ) . "?fcp_page=" . esc_html( $prev_page )); ?>">&lt; <?php _e( 'Previous Page' ); ?></a> | <?php
+            ?><a href="<?php echo add_query_arg('fcp_page', esc_html( $prev_page ) ) ?>">&lt; <?php _e( 'Previous Page' ); ?></a><?php
         }
     }
 
@@ -714,8 +713,7 @@ function mythic_fcp_render_client_invoices() {
 
         if(count($invoices) > 1) {
             // Add Next Button
-            $current_url = explode("?", $_SERVER['REQUEST_URI']);
-            ?><a href="<?php echo( esc_html( $current_url[0] ) . "?fcp_page=" . esc_html( $next_page ) ); ?>"><?php _e( 'Next Page' ); ?> &gt;</a><?php
+            ?><a href="<?php echo add_query_arg('fcp_page', esc_html( $next_page ) ) ?>"><?php _e( 'Next Page' ); ?> &gt;</a><?php
         } else {
             ?><a href="!#" class="disabled"><?php _e( 'Next Page' ); ?> &gt;</a><?php
         }
