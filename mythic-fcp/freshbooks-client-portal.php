@@ -167,7 +167,7 @@ function mythic_fcp_token_options_page() {
                                 <td><select name="mythic_fcp_account_id" id="mythic_fcp_account_id">
                                     <?php
                                         foreach($business_memberships as $business) {
-                                            echo( "<option value='" . esc_attr( $business['business']['account_id'] ) . "'>" . esc_html( $business['business']['name'] ) . "</option>" );
+                                            echo( "<option value='" . esc_attr( $business['business']['account_id'] ) . "'>" . esc_html__( $business['business']['name'] ) . "</option>" );
                                         }
                                     ?>
                                 </select></td>
@@ -177,7 +177,7 @@ function mythic_fcp_token_options_page() {
                                 <td><select name="mythic_fcp_business_id" id="mythic_fcp_business_id">
                                     <?php
                                         foreach($business_memberships as $business) {
-                                            echo( "<option value='" . esc_attr( $business['business']['id'] ) . "'>" . esc_html( $business['business']['name'] ) . "</option>" );
+                                            echo( "<option value='" . esc_attr( $business['business']['id'] ) . "'>" . esc_html__( $business['business']['name'] ) . "</option>" );
                                         }
                                     ?>
                                 </select></td>
@@ -275,11 +275,6 @@ function mythic_fcp_refresh_token() {
         $client_secret = get_option('mythic_fcp_client_secret');
         $refresh_token = get_option('mythic_fcp_refresh_token');
         $redirect_uri = get_admin_url(null, 'options-general.php', 'https');
-        
-        echo "Client ID: " . esc_html( $client_id ) . "<br>";
-        echo "Client Secret: " . esc_html( $client_secret ) . "<br>";
-        echo "Refresh Token: " . esc_html( $refresh_token ) . "<br>";
-        echo "Redirect URI: " . esc_html( $redirect_uri ) . "<br>";
         
         // WP_Http Request
         $api_url = "https://api.freshbooks.com/auth/oauth/token";
@@ -487,7 +482,7 @@ function mythic_fcp_render_client_info($json) {
                 <p><strong><?php esc_html_e( 'Total Outstanding:' ); ?> </strong>$
                 <?php
                     if($client_outstanding_balance) { 
-                        echo( esc_html( $client_outstanding_balance[0]["amount"]["amount"] ) . esc_html_e( " " ) . esc_html( $client_outstanding_balance[0]["amount"]["code"] ) );
+                        echo( esc_html__( $client_outstanding_balance[0]["amount"]["amount"] ) . esc_html_e( " " ) . esc_html__( $client_outstanding_balance[0]["amount"]["code"] ) );
                     } else {
                         echo esc_html_e( '$0.00' );
                     }
@@ -604,45 +599,45 @@ function mythic_fcp_render_client_invoices() {
         
         ?>
             <tr>
-                <td data-label="<?php esc_html_e( 'Invoice Number' ); ?>"><?php echo esc_html( $invoice_number ); ?></td>
-                <td data-label="<?php esc_html_e( 'Date Created' ); ?>"><?php echo esc_html( $created_at ); ?></td>
-                <td data-label="<?php esc_html_e( 'Due Date' ); ?>"><?php echo esc_html( $due_date ); ?></td>
-                <td data-label="<?php esc_html_e( 'Total Amount' ); ?>">$<?php echo esc_html( $amount["amount"] ); ?></td>
-                <td data-label="<?php esc_html_e( 'Outstanding' ); ?>">$<?php echo esc_html( $outstanding["amount"]); ?></td>
+                <td data-label="<?php esc_html_e( 'Invoice Number' ); ?>"><?php echo esc_html__( $invoice_number ); ?></td>
+                <td data-label="<?php esc_html_e( 'Date Created' ); ?>"><?php echo esc_html__( $created_at ); ?></td>
+                <td data-label="<?php esc_html_e( 'Due Date' ); ?>"><?php echo esc_html__( $due_date ); ?></td>
+                <td data-label="<?php esc_html_e( 'Total Amount' ); ?>">$<?php echo esc_html__( $amount["amount"] ); ?></td>
+                <td data-label="<?php esc_html_e( 'Outstanding' ); ?>">$<?php echo esc_html__( $outstanding["amount"]); ?></td>
                 <td data-label="<?php esc_html_e( 'Status' ); ?>"><?php 
                     switch($status) {
                         case 0;
-                            ?><a class="status disputed" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php esc_html_e( 'Disputed' ); ?></a><?php
+                            ?><a class="status disputed" href="<?php echo esc_html__( $link ); ?>" target="_blank"><?php esc_html_e( 'Disputed' ); ?></a><?php
                             break;
                         case 1;
-                            ?><a class="status draft" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php esc_html_e( 'Draft' ); ?></a><?php
+                            ?><a class="status draft" href="<?php echo esc_html__( $link ); ?>" target="_blank"><?php esc_html_e( 'Draft' ); ?></a><?php
                             break;
                         case 2;
-                            ?><a class="status sent" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php esc_html_e( 'Sent' ); ?></a><?php
+                            ?><a class="status sent" href="<?php echo esc_html__( $link ); ?>" target="_blank"><?php esc_html_e( 'Sent' ); ?></a><?php
                             break;
                         case 3;
 
                             if($due_date < $current_date) {
-                                ?><a class="status overdue" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php esc_html_e( 'Overdue' ); ?></a><?php
+                                ?><a class="status overdue" href="<?php echo esc_html__( $link ); ?>" target="_blank"><?php esc_html_e( 'Overdue' ); ?></a><?php
                             } else {
-                                ?><a class="status viewed" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php esc_html_e( 'Viewed' ); ?></a><?php
+                                ?><a class="status viewed" href="<?php echo esc_html__( $link ); ?>" target="_blank"><?php esc_html_e( 'Viewed' ); ?></a><?php
                             }
 
                             break;
                         case 4;
-                            ?><a class="status paid" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php esc_html_e( 'Paid' ); ?></a><?php
+                            ?><a class="status paid" href="<?php echo esc_html__( $link ); ?>" target="_blank"><?php esc_html_e( 'Paid' ); ?></a><?php
                             break;
                         case 5;
-                            ?><a class="status autopaid" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php esc_html_e( 'Auto Paid' ); ?></a><?php
+                            ?><a class="status autopaid" href="<?php echo esc_html__( $link ); ?>" target="_blank"><?php esc_html_e( 'Auto Paid' ); ?></a><?php
                             break;
                         case 6;
-                            ?><a class="status retry" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php esc_html_e( 'Retry' ); ?></a><?php
+                            ?><a class="status retry" href="<?php echo esc_html__( $link ); ?>" target="_blank"><?php esc_html_e( 'Retry' ); ?></a><?php
                             break;
                         case 7;
-                            ?><a class="status failed" href="<?php echo esc_html( $link ); ?>" target="_blank"><?php esc_html_e( 'Failed' ); ?></a><?php
+                            ?><a class="status failed" href="<?php echo esc_html__( $link ); ?>" target="_blank"><?php esc_html_e( 'Failed' ); ?></a><?php
                             break;
                         case 8;
-                            ?><a class="status partial" href="<?php echo esc_html( $link ); ?>" target="_blank"> <?php esc_html_e( 'Partial' ); ?></a><?php
+                            ?><a class="status partial" href="<?php echo esc_html__( $link ); ?>" target="_blank"> <?php esc_html_e( 'Partial' ); ?></a><?php
                             break;
                     }
 
@@ -675,14 +670,14 @@ function mythic_fcp_render_client_invoices() {
     if($current_page > 1) {
 
         // WP_Http Request  
-        $api_url = "https://api.freshbooks.com/accounting/account/" . get_option('mythic_fcp_account_id') . "/invoices/invoices?per_page=10&page=" . $prev_page . "&search[customerid]=" . $fcp_client_id;
+        $api_url = "https://api.freshbooks.com/accounting/account/" . get_option('mythic_fcp_account_id') . "/invoices/invoices?per_page=10&page=" . esc_html( $prev_page ) . "&search[customerid]=" . esc_html( $fcp_client_id );
         $api_args = array(
             'method' => 'GET',
             'timeout' => 30.000,
             'redirection' => 10,
             'headers' => array(
                 "Api-Version" => "alpha",
-                "Authorization" => "Bearer " . $bearer_token,
+                "Authorization" => "Bearer " . esc_html( $bearer_token ),
                 "Content-Type" => "application/json"
             ),
 
