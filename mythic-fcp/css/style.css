@@ -22,19 +22,19 @@ div.fcp_container .fcp_header .balance {
     text-align: left;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 968px) {
     div.fcp_container .fcp_header {
         flex-direction: row;
     }
     
     div.fcp_container .fcp_header .welcome {
-        flex-basis: 50%;
+        flex-basis: 60%;
         display: block;
         text-align: left;
     }
     
     div.fcp_container .fcp_header .balance {
-        flex-basis: 50%;
+        flex-basis: 40%;
         display: block;
         text-align: right;
     }
@@ -101,55 +101,53 @@ div.fcp_container .fcp_header .balance {
 .fcp_body .fcp_pagination { margin: 0 auto; text-align: center; }
 .fcp_body .fcp_pagination a.disabled { pointer-events: none; color: #ccc; }
 
-@media screen and (max-width: 968px) {
-    .fcp_body table {
-        border: 0;
-    }
+.fcp_body.mobile table {
+    border: 0;
+}
 
-    .fcp_body table caption {
-        font-size: 1.3em;
-    }
+.fcp_body.mobile table caption {
+    font-size: 1.3em;
+}
 
-    .fcp_body table thead {
-        border: none;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        width: 1px;
-    }
+.fcp_body.mobile table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
 
-    .fcp_body table tr {
-        border-bottom: 3px solid #ddd;
-        display: block;
-        margin-bottom: .625em;
-    }
+.fcp_body.mobile table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+}
 
-    .fcp_body table td {
-        border-bottom: 1px solid #ddd;
-        display: block;
-        font-size: .8em;
-        text-align: right;
-    }
+.fcp_body.mobile table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: .8em;
+    text-align: right;
+}
 
-    .fcp_body table td::before {
-        /*
-        * aria-label has no advantage, it won't be read inside a table
-        content: attr(aria-label);
-        */
-        content: attr(data-label);
-        float: left;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
+.fcp_body.mobile table td::before {
+    /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+}
 
-    .fcp_body table td:last-child {
-        border-bottom: 0;
-    }
-    
-    .fcp_body table td a.status {
-        width: auto;
-    }
+.fcp_body.mobile table td:last-child {
+    border-bottom: 0;
+}
+
+.fcp_body.mobile table td a.status {
+    width: auto;
 }

@@ -397,6 +397,13 @@ function mythic_fcp_show_client() {
     }
 }
 
+// Register Frontend JS
+add_action( 'wp_enqueue_scripts', 'mythic_fcp_register_scripts' );
+function mythic_fcp_register_scripts() {
+    wp_register_script( 'fcp-frontend', plugins_url( 'js/fcp-frontend.js', __FILE__), array('jquery') );
+    wp_enqueue_script( 'fcp-frontend' );
+}
+
 // Register Frontend CSS
 add_action( 'wp_enqueue_scripts', 'mythic_fcp_register_style' );
 function mythic_fcp_register_style() {
