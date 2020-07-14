@@ -5,6 +5,8 @@
  * Version: 1.0.2
  * Author: Mythic Design Company
  * Author URI: https://mythicdesigncompany.com/
+ * Requires at least: 5.0
+ * Requires PHP: 7.0
  */
 
 defined( 'ABSPATH' ) or die( esc_html_e( 'No script kiddies please!', 'mythic-fcp' ) );
@@ -60,7 +62,7 @@ function mythic_fcp_class_includes() {
 // Create Options Page    
 add_action( 'admin_menu', 'mythic_fcp_register_options_page' );
 function mythic_fcp_register_options_page() {
-  add_options_page( esc_html_e( 'Freshbooks Client Portal', 'mythic-fcp' ), esc_html_e( 'Freshbooks Client Portal', 'mythic-fcp' ), 'manage_options', 'mythic-fcp', 'mythic_fcp_token_options_page' );
+  add_options_page( 'Freshbooks Client Portal', 'Freshbooks Client Portal', 'manage_options', 'mythic-fcp', 'mythic_fcp_token_options_page' );
 }
 
 // Options Page Content
