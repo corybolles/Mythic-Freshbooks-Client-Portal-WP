@@ -331,8 +331,10 @@ function mythic_fcp_attach_client_id($login, $user) {
     
     $bearer_token = get_option('mythic_fcp_bearer_token');
     
+    $page = 1;
+    
     // WP_Http Request        
-    $api_url = "https://api.freshbooks.com/accounting/account/" . get_option('mythic_fcp_account_id') . "/users/clients?per_page=100";
+    $api_url = "https://api.freshbooks.com/accounting/account/" . get_option('mythic_fcp_account_id') . "/users/clients?per_page=100&page=" . $page;
     $api_args = array(
         'method' => 'GET',
         'timeout' => 30.000,
@@ -349,6 +351,34 @@ function mythic_fcp_attach_client_id($login, $user) {
     $result = $request->request( $api_url, $api_args );
     $response = $result['body'];
     $json = json_decode($response, true);
+    
+    // Check if there's more than 100 clients
+    $client_num = count($json["response"]["result"]["clients"]);
+    while($client_num == 100) {
+        // Get next page of clients until all pages are retrieved
+        $page += 1;
+        
+        // WP_Http Request
+        $api_url = "https://api.freshbooks.com/accounting/account/" . get_option('mythic_fcp_account_id') . "/users/clients?per_page=100&page=" . $page;
+        $api_args = array(
+            'method' => 'GET',
+            'timeout' => 30.000,
+            'redirection' => 10,
+            'headers' => array(
+                "Api-Version" => "alpha",
+                "Authorization" => "Bearer " . $bearer_token,
+                "Content-Type" => "application/json"
+            )
+        );
+        $request = new WP_Http_Curl;
+        $result = $request->request( $api_url, $api_args );
+        $response = $result['body'];
+        $json2 = json_decode($response, true);
+        
+        // Merge client lists
+        $json = array_merge_recursive($json,$json);
+        $client_num = count($json["response"]["result"]["clients"]);
+    }
 
     $user_email = $user->user_email;
 
