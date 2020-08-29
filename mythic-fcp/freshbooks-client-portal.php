@@ -2,11 +2,11 @@
 /**
  * Plugin Name: Freshbooks Client Portal
  * Description: Provides client portal functionality for Freshbooks account holders.
- * Version: 1.0.2
+ * Version: 1.1.0
  * Author: Mythic Design Company
  * Author URI: https://mythicdesigncompany.com/
  * Requires at least: 5.0
- * Requires PHP: 7.0
+ * Requires PHP: 7.1
  */
 
 defined( 'ABSPATH' ) or die( esc_html_e( 'No script kiddies please!', 'mythic-fcp' ) );
@@ -14,12 +14,6 @@ defined( 'ABSPATH' ) or die( esc_html_e( 'No script kiddies please!', 'mythic-fc
 // Activate Functions
 register_activation_hook( __FILE__, 'mythic_fcp_activation' );
 function mythic_fcp_activation() {
-
-}
-
-// Deactivate Functions
-register_deactivation_hook( __FILE__, 'mythic_fcp_activation' );
-function mythic_fcp_deactivation() {
 
 }
 
@@ -94,7 +88,6 @@ function mythic_fcp_token_options_page() {
                     <input type="checkbox" id="mythic_fcp_remove_on_uninstall" name="mythic_fcp_remove_on_uninstall" value="1">
                     <label for="mythic_fcp_remove_on_uninstall"><?php esc_html_e( 'Check this box to remove plugin data on uninstall.', 'mythic-fcp' ); ?></label>
 
-                    <?php wp_nonce_field( 'mythic-fcp-settings-nonce' ); ?>
                     <?php submit_button(); ?>
                 </form>
 
@@ -120,7 +113,6 @@ function mythic_fcp_token_options_page() {
                             </tr>
                         </table>
                         
-                        <?php wp_nonce_field( 'mythic-fcp-connection-nonce' ); ?>
                         <?php submit_button(); ?>
                     </form>
 
@@ -186,7 +178,6 @@ function mythic_fcp_token_options_page() {
                             </tr> 
                         </table>
                         
-                        <?php wp_nonce_field( 'mythic-fcp-identity-nonce' ); ?>
                         <?php submit_button(); ?>
                     </form>
                 </div>
@@ -268,6 +259,11 @@ function mythic_fcp_refresh_token() {
     $current_date_str = $current_date->format('Y-m-d H:i:s');
     $expiry_date_str = get_option('mythic_fcp_token_expiry');
     
+    // Make sure there are tokens
+    if(!get_option('mythic_fcp_bearer_token') && !get_option('mythic_fcp_refresh_token')) {
+        return false;
+    }
+    
     // If Current Date is Past Expiration Date
     if($current_date_str < $expiry_date_str) {
         return true;
@@ -323,12 +319,11 @@ function mythic_fcp_refresh_token() {
 }
 
 // Find Client ID On User Login
-add_action( 'user_register', 'mythic_fcp_attach_client_id', 99, 2);
 add_action( 'wp_login', 'mythic_fcp_attach_client_id', 99, 2);
 function mythic_fcp_attach_client_id($login, $user) {
     // Make Sure We Still Have Access to Freshbooks
-    mythic_fcp_refresh_token();
-    
+    if(!mythic_fcp_refresh_token()) { return false; }
+
     $bearer_token = get_option('mythic_fcp_bearer_token');
     
     $page = 1;
@@ -354,6 +349,7 @@ function mythic_fcp_attach_client_id($login, $user) {
     
     // Check if there's more than 100 clients
     $client_num = count($json["response"]["result"]["clients"]);
+    
     while($client_num == 100) {
         // Get next page of clients until all pages are retrieved
         $page += 1;
@@ -376,7 +372,7 @@ function mythic_fcp_attach_client_id($login, $user) {
         $json2 = json_decode($response, true);
         
         // Merge client lists
-        $json = array_merge_recursive($json,$json);
+        $json = array_merge_recursive($json,$json2);
         $client_num = count($json["response"]["result"]["clients"]);
     }
 
@@ -396,7 +392,7 @@ function mythic_fcp_attach_client_id($login, $user) {
 add_shortcode('fcp_client', 'mythic_fcp_show_client');
 function mythic_fcp_show_client() {
     // Make Sure We Still Have Access to Freshbooks
-    mythic_fcp_refresh_token();
+    if(!mythic_fcp_refresh_token()) { return false; }
     
     $user_id = get_current_user_id();    
     

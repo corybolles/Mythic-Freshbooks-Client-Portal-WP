@@ -1,5 +1,22 @@
 # Change Log
 
+## [1.1.0] - September 2, 2020
+Tested in WP 5.5
+
+### Added
+- Support for freshbooks accounts with over 100 clients
+
+### Changed
+- Plugin no longer checks for freshbooks client ID upon user registration. This may require users to log out and back in again after registering to view their data. Only an issue where auto-login after registration is enabled.
+- Changed jQuery variables to be standard JS variables.
+
+### Removed
+- Empty deactivation hook
+- Broken WP Nonces; Will be re-adding after fixing
+
+### Fixed
+- Issue where users could not log in if a Freshbooks account was connected.
+
 ## [1.0.2] - June 17, 2020
 ### Added
 - Internationalization of all text strings
