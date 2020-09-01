@@ -428,20 +428,20 @@ function mythic_fcp_show_client() {
 // Register Frontend JS
 add_action( 'wp_enqueue_scripts', 'mythic_fcp_register_scripts' );
 function mythic_fcp_register_scripts() {
-    wp_register_script( 'fcp-frontend', plugins_url( 'js/fcp-frontend.js', __FILE__), array('jquery') );
+    wp_register_script( 'fcp-frontend', plugins_url( 'assets/js/fcp-frontend.js', __FILE__), array('jquery') );
     wp_enqueue_script( 'fcp-frontend' );
 }
 
 // Register Frontend CSS
 add_action( 'wp_enqueue_scripts', 'mythic_fcp_register_style' );
 function mythic_fcp_register_style() {
-    wp_register_style( 'mythic_fcp_frontend_css', plugins_url( 'css/style.css', __FILE__), array(), '1.0.0', 'all');
+    wp_register_style( 'mythic_fcp_frontend_css', plugins_url( 'assets/css/style.css', __FILE__), array(), '1.0.0', 'all');
 }
 
 // Register Admin CSS
 add_action( 'admin_enqueue_scripts', 'mythic_fcp_register_admin_style' );
 function mythic_fcp_register_admin_style() {
-    wp_register_style( 'mythic_fcp_admin_css', plugins_url( 'css/admin.css', __FILE__), array(), '1.0.0', 'all');
+    wp_register_style( 'mythic_fcp_admin_css', plugins_url( 'assets/css/admin.css', __FILE__), array(), '1.0.0', 'all');
     wp_enqueue_style('mythic_fcp_admin_css');
 }
 
@@ -572,6 +572,7 @@ function mythic_fcp_render_client_invoices() {
                 <th scope="col"><?php esc_html_e( 'Total Amount', 'mythic-fcp' ); ?></th>
                 <th scope="col"><?php esc_html_e( 'Outstanding', 'mythic-fcp' ); ?></th>
                 <th scope="col"><?php esc_html_e( 'Status', 'mythic-fcp' ); ?></th>
+                <th scope="col"><?php esc_html_e( 'Action', 'mythic-fcp' ); ?></th>
             </tr>
         </thead>
 
@@ -627,11 +628,16 @@ function mythic_fcp_render_client_invoices() {
         
         ?>
             <tr>
-                <td data-label="<?php esc_html_e( 'Invoice Number', 'mythic-fcp' ); ?>"><?php echo esc_html( $invoice_number ); ?></td>
+                <td data-label="<?php esc_html_e( 'Invoice Number', 'mythic-fcp' ); ?>"><a href="<?php echo esc_url( $link ); ?>" target="_blank"><?php echo esc_html( $invoice_number ); ?></a></td>
+                
                 <td data-label="<?php esc_html_e( 'Date Created', 'mythic-fcp' ); ?>"><?php echo esc_html( $created_at ); ?></td>
+                
                 <td data-label="<?php esc_html_e( 'Due Date', 'mythic-fcp' ); ?>"><?php echo esc_html( $due_date ); ?></td>
+                
                 <td data-label="<?php esc_html_e( 'Total Amount', 'mythic-fcp' ); ?>">$<?php echo esc_html( $amount["amount"] ); ?></td>
+                
                 <td data-label="<?php esc_html_e( 'Outstanding', 'mythic-fcp' ); ?>">$<?php echo esc_html( $outstanding["amount"]); ?></td>
+                
                 <td data-label="<?php esc_html_e( 'Status', 'mythic-fcp' ); ?>"><?php 
                     switch($status) {
                         case 0;
@@ -670,6 +676,16 @@ function mythic_fcp_render_client_invoices() {
                     }
 
                 ?></td>
+                
+                <td data-label="<?php esc_html_e( 'Action', 'mythic-fcp' ); ?>">
+                	<a class="action" title="<?php esc_html_e( 'View Invoice', 'mythic-fcp' ) ?>" href="<?php echo esc_url( $link ); ?>" target="_blank"><img src="<?php echo plugin_dir_url(__FILE__) . "assets/svg/search.svg"; ?>"></a>
+                	
+                	<?php
+						if($status == 2 || $status == 3 || $status == 6 || $status == 7 || $status == 8) {
+							?><a class="action" title="<?php esc_html_e( 'Pay Invoice', 'mythic-fcp' ) ?>" href="<?php echo esc_url( $link ); ?>" target="_blank"><img src="<?php echo plugin_dir_url(__FILE__) . "assets/svg/dollar.svg"; ?>"></a><?php
+						}
+					?>
+                </td>
             </tr>
         <?php
     }                          

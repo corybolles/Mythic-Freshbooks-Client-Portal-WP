@@ -5,12 +5,12 @@
         var fcp_body = $('.fcp_body');
 
         if(fcp_body.width() < 750) {
-            fcp_body.addClass('mobile');
+            fcp_body.addClass('collapsed');
         }
 
         $(window).resize(function() {
             if(fcp_body.width() < 750) {
-                fcp_body.addClass('mobile');
+                fcp_body.addClass('collapsed');
             } else {
                 fcp_body.removeClass('mobile');
             }
