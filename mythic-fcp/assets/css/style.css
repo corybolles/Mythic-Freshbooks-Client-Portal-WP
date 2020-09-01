@@ -79,7 +79,7 @@ div.fcp_container .fcp_header .balance {
 .fcp_body table tbody tr td[data-label="Status"] a { display: table-cell; vertical-align: middle; width: 100%; height: 40px; padding: 4px 8px; }
 
 .fcp_body table tbody tr td[data-label="Invoice Number"] { display: table; width:100%; padding: 0; height: auto; }
-.fcp_body table tbody tr td[data-label="Invoice Number"] a { display: table-cell; vertical-align: middle; width: 100%; height: 40px; padding: 4px 8px; }
+.fcp_body table tbody tr td[data-label="Invoice Number"] a { display: table-cell; vertical-align: middle; width: 100%; height: 40px; padding: 4px 8px; color: #000; text-decoration: none; font-weight: 700; }
 
 .fcp_body table tbody tr td a.number {
 	font-weight: 600;
@@ -168,6 +168,9 @@ div.fcp_container .fcp_header .balance {
 }
 
 
+.fcp_body.collapsed table { border: none; }
+.fcp_body.collapsed table tbody { background: transparent; }
+
 .fcp_body.collapsed table,
 .fcp_body.collapsed table thead,
 .fcp_body.collapsed table tbody,
@@ -231,6 +234,7 @@ div.fcp_container .fcp_header .balance {
 
 .fcp_body.collapsed table tbody tr > td:first-of-type a {
 	color: #fff;
+	text-decoration: none;
 }
 
 .fcp_body.collapsed table tbody tr > td:first-of-type a:hover {

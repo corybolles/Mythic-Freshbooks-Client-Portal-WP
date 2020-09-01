@@ -9,6 +9,7 @@ Tested in WP 5.5
 ### Changed
 - Plugin no longer checks for freshbooks client ID upon user registration. This may require users to log out and back in again after registering to view their data. Only an issue where auto-login after registration is enabled.
 - Changed jQuery variables to be standard JS variables.
+- Updated frontend table design
 
 ### Removed
 - Empty deactivation hook

@@ -11,8 +11,10 @@
         $(window).resize(function() {
             if(fcp_body.width() < 750) {
                 fcp_body.addClass('collapsed');
-            } else {
-                fcp_body.removeClass('mobile');
+            }
+			
+			if(fcp_body.width() > 750) {
+                fcp_body.removeClass('collapsed');
             }
         });
     });
