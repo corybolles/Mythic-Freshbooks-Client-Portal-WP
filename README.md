@@ -3,7 +3,7 @@ The purpose of this plugin is to provide a client portal within WordPress for th
 
 ## Plugin Features
 - Integration with WordPress user system
-- Support for businesses with up to 100 clients on Freshbooks
+- Support for unlimited clients on Freshbooks
 - Support for users who are a part of multiple businesses within Freshbooks
 - Mobile and Desktop friendly lists of Client Invoices including:
  - Invoice Details (Amount, Number, Dates Sent & Due, Etc.)
@@ -12,7 +12,6 @@ The purpose of this plugin is to provide a client portal within WordPress for th
 
 ## Coming Soon Features:
 - Support for clients who are a part of multiple businesses within Freshbooks
-- Support for increased number of Freshbooks clients
 - Support for clients who are the "secondary contact" on their account
 
 ## Feature Requests
