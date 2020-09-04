@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.1.1] - September 4, 2020
+### Changed
+- Made JavaScript less greedy (also fixes some incompatibilities with other plugins)
+
 ## [1.1.0] - September 2, 2020
 Tested in WP 5.5
 

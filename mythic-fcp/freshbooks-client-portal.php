@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Freshbooks Client Portal
  * Description: Provides client portal functionality for Freshbooks account holders.
- * Version: 1.1.0
+ * Version: 1.1.1
  * Author: Mythic Design Company
  * Author URI: https://mythicdesigncompany.com/
  * Requires at least: 5.0
@@ -391,6 +391,9 @@ function mythic_fcp_attach_client_id($login, $user) {
 // Client Portal Shortcode
 add_shortcode('fcp_client', 'mythic_fcp_show_client');
 function mythic_fcp_show_client() {
+	wp_enqueue_script( 'fcp-frontend' );
+	wp_enqueue_style( 'mythic_fcp_frontend_css' );
+	
     // Make Sure We Still Have Access to Freshbooks
     if(!mythic_fcp_refresh_token()) { return false; }
     
@@ -429,7 +432,6 @@ function mythic_fcp_show_client() {
 add_action( 'wp_enqueue_scripts', 'mythic_fcp_register_scripts' );
 function mythic_fcp_register_scripts() {
     wp_register_script( 'fcp-frontend', plugins_url( 'assets/js/fcp-frontend.js', __FILE__), array('jquery') );
-    wp_enqueue_script( 'fcp-frontend' );
 }
 
 // Register Frontend CSS
@@ -448,8 +450,6 @@ function mythic_fcp_register_admin_style() {
 // Render Client Info
 function mythic_fcp_render_client_info($json) {
     $bearer_token = get_option('mythic_fcp_bearer_token');
-    
-    wp_enqueue_style('mythic_fcp_frontend_css');
     
     $info = $json['response']['result']['client'];
     
