@@ -1,25 +1,17 @@
-(function($) {
-    "use strict";
+var js_fcp_body = document.getElementsByClassName('fcp_body')[0];
 
-    $(document).ready(function() {
-		if( $('.fcp_body').length ) {
-			
-			var fcp_body = $('.fcp_body');
+if(js_fcp_body) {
+	if(js_fcp_body.offsetWidth < 750) {
+		js_fcp_body.classList.add("collapsed");
+	}
+}
 
-			if(fcp_body.width() < 750) {
-				fcp_body.addClass('collapsed');
-			}
-
-			$(window).resize(function() {
-				if(fcp_body.width() < 750) {
-					fcp_body.addClass('collapsed');
-				}
-
-				if(fcp_body.width() > 750) {
-					fcp_body.removeClass('collapsed');
-				}
-			});
-		
+window.onresize = function(e) {
+	if(js_fcp_body) {
+		if(js_fcp_body.offsetWidth < 750) {
+			js_fcp_body.classList.add("collapsed");
+		} else {
+			js_fcp_body.classList.remove("collapsed");
 		}
-    });
-})(jQuery);
+	}
+};

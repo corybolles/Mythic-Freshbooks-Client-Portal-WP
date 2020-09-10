@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.1.2] - Septevmer 10, 2020
+### Changed
+- Removed jQuery dependency (now uses vanilla JS)
+
 ## [1.1.1] - September 4, 2020
 ### Changed
 - Made JavaScript less greedy (also fixes some incompatibilities with other plugins)
