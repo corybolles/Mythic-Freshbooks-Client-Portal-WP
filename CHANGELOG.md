@@ -1,6 +1,9 @@
 # Change Log
 
-## [1.1.2] - Septevmer 10, 2020
+## [1.1.3] - January 7, 2021
+Tested in WP 5.6
+
+## [1.1.2] - September 10, 2020
 ### Changed
 - Removed jQuery dependency (now uses vanilla JS)
 

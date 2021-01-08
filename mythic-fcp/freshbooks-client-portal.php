@@ -2,10 +2,10 @@
 /**
  * Plugin Name: Freshbooks Client Portal
  * Description: Provides client portal functionality for Freshbooks account holders.
- * Version: 1.1.1
+ * Version: 1.1.3
  * Author: Mythic Design Company
  * Author URI: https://mythicdesigncompany.com/
- * Requires at least: 5.0
+ * Requires at least: 4.0
  * Requires PHP: 7.1
  */
 
