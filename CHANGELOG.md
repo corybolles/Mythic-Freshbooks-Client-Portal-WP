@@ -1,8 +1,10 @@
 # Change Log
 
 ## [1.2] - October 22, 2021
+Tested in WP 5.8
 - Support for use in Beaver Builder fixed.
 - Escaped strings restructured to work in new output scheme
+- Support for New Freshbooks Developer Interface
 
 ## [1.1.3] - January 7, 2021
 Tested in WP 5.6
