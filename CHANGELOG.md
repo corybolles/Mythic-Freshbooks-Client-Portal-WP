@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.2] - October 22, 2021
+- Support for use in Beaver Builder fixed.
+- Escaped strings restructured to work in new output scheme
+
 ## [1.1.3] - January 7, 2021
 Tested in WP 5.6
 

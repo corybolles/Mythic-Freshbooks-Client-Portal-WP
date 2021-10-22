@@ -18,6 +18,7 @@ The video version of the instructions below can be found here: https://www.youtu
  - **Website URL:** `[YOUR WEBSITE URL]`
  - **Application Settings URL:**  `[YOUR WEBSITE URL] /wp-admin/options-general.php?page=mythic-fcp`
  - **Redirect URLs:** `[YOUR WEBSITE URL] /wp-admin/options-general.php`
+ - **Scopes:** `user:profile:read` `user:clients:read` `user:invoices:read`
 
   *Make sure to include the protocol (http:// or https:// in all URLs and URIs)
 
