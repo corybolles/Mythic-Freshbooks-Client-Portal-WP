@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Freshbooks Client Portal
  * Description: Provides client portal functionality for Freshbooks account holders.
- * Version: 1.2
+ * Version: 1.2.1
  * Author: Mythic Design Company
  * Author URI: https://mythicdesigncompany.com/
  * Requires at least: 4.0
@@ -22,6 +22,9 @@ add_action( 'admin_init', 'mythic_fcp_register_settings' );
 function mythic_fcp_register_settings() {
     add_option( 'mythic_fcp_remove_on_uninstall', '0');
     register_setting( 'mythic_fcp_options', 'mythic_fcp_remove_on_uninstall', array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
+
+    add_option( 'mythic_fcp_currency_icon', '');
+    register_setting( 'mythic_fcp_options', 'mythic_fcp_currency_icon', array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
     
     add_option( 'mythic_fcp_client_id', '');
     register_setting( 'mythic_fcp_token_options', 'mythic_fcp_client_id', array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
@@ -43,6 +46,7 @@ function mythic_fcp_register_settings() {
 
     add_option( 'mythic_fcp_business_id', '');
     register_setting( 'mythic_fcp_identity_info', 'mythic_fcp_business_id', array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
+
 }
 
 // Include WP_Http Class
@@ -85,8 +89,20 @@ function mythic_fcp_token_options_page() {
                     <?php settings_fields( 'mythic_fcp_options' ); ?>
 
                     <input type="hidden" id="" name="mythic_fcp_remove_on_uninstall" value="0">
-                    <input type="checkbox" id="mythic_fcp_remove_on_uninstall" name="mythic_fcp_remove_on_uninstall" value="1">
-                    <label for="mythic_fcp_remove_on_uninstall"><?php esc_html_e( 'Check this box to remove plugin data on uninstall.', 'mythic-fcp' ); ?></label>
+                    <input type="checkbox" id="mythic_fcp_remove_on_uninstall" name="mythic_fcp_remove_on_uninstall" value="1" <?php if(get_option('mythic_fcp_remove_on_uninstall') == 1): ?>checked<?php endif; ?>>
+                    <label for="mythic_fcp_remove_on_uninstall"><?php esc_html_e( 'Check this box to remove plugin data on uninstall.', 'mythic-fcp' ); ?></label><br>
+
+                    <label for="mythic_fcp_currency_icon"><strong>Currency Icon</strong></label><br>
+                    <select id="mythic_fcp_currency_icon" name="mythic_fcp_currency_icon">
+                        <option value="$" <?php if(get_option('mythic_fcp_currency_icon') == "$"): ?>selected<?php endif; ?>>Dollar Symbol - $</option>
+                        <option value="€" <?php if(get_option('mythic_fcp_currency_icon') == "€"): ?>selected<?php endif; ?>>Euro Symbol - €</option>
+                        <option value="£" <?php if(get_option('mythic_fcp_currency_icon') == "£"): ?>selected<?php endif; ?>>Pound Sterling Symbol – £</option>
+                        <option value="¥" <?php if(get_option('mythic_fcp_currency_icon') == "¥"): ?>selected<?php endif; ?>>Yen Symbol – ¥</option>
+                        <option value="₣" <?php if(get_option('mythic_fcp_currency_icon') == "₣"): ?>selected<?php endif; ?>>Franc Symbol – ₣</option>
+                        <option value="₹" <?php if(get_option('mythic_fcp_currency_icon') == "₹"): ?>selected<?php endif; ?>>Rupee Symbol – ₹</option>
+                        <option value="₫" <?php if(get_option('mythic_fcp_currency_icon') == "₫"): ?>selected<?php endif; ?>>Dong Symbol – ₫</option>
+                        <option value="₱" <?php if(get_option('mythic_fcp_currency_icon') == "₱"): ?>selected<?php endif; ?>>Peso Symbol – ₱</option>
+                    </select>
 
                     <?php submit_button(); ?>
                 </form>
@@ -636,6 +652,7 @@ function mythic_fcp_render_client_invoices() {
         $result = $request->request( $api_url, $api_args );
         $response = $result['body'];
         $json = json_decode($response, true);
+        $curreny_symbol = get_option('mythic_fcp_currency_icon');
         
         $link = $json["response"]["result"]["share_link"]["share_link"];
         
@@ -643,8 +660,8 @@ function mythic_fcp_render_client_invoices() {
             $output.='    <td data-label="' . esc_html__( 'Invoice Number', 'mythic-fcp' ) . '"><a href="' . esc_url( $link ) . '" target="_blank">' . esc_html( $invoice_number ) . '</a></td>';
             $output.='    <td data-label="' . esc_html__( 'Date Created', 'mythic-fcp' ) . '">' . esc_html( $created_at ) . '</td>';
             $output.='    <td data-label="' . esc_html__( 'Due Date', 'mythic-fcp' ) . '">' . esc_html( $due_date ) . '</td>';
-            $output.='    <td data-label="' . esc_html__( 'Total Amount', 'mythic-fcp' ) . '">$' . esc_html( $amount["amount"] ) . '</td>'; 
-            $output.='    <td data-label="' . esc_html__( 'Outstanding', 'mythic-fcp' ) . '">$' . esc_html( $outstanding["amount"]) . '</td>'; 
+            $output.='    <td data-label="' . esc_html__( 'Total Amount', 'mythic-fcp' ) . '">' . esc_html( $curreny_symbol ) . esc_html( $amount["amount"] ) . '</td>'; 
+            $output.='    <td data-label="' . esc_html__( 'Outstanding', 'mythic-fcp' ) . '">' . esc_html( $curreny_symbol ) . esc_html( $outstanding["amount"]) . '</td>'; 
             $output.='    <td data-label="' . esc_html__( 'Status', 'mythic-fcp' ) . '">';
         
                     switch($status) {

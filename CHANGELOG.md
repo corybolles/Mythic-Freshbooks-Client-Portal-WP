@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.2.1]
+Tested in WP 6.0
+- Added in Currency Selector
+
 ## [1.2] - October 22, 2021
 Tested in WP 5.8
 - Support for use in Beaver Builder fixed.
